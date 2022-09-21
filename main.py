@@ -1,16 +1,31 @@
-# This is a sample Python script.
+from flask import Flask
+from flasgger import Swagger
+from api.route.home import home_api
+from api.route.color import color_api
 
-# Press Shift+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+def create_app():
+    app = Flask(__name__)
+
+    app.config['SWAGGER'] = {
+        'title': 'Flask API Starter Kit',
+    }
+    swagger = Swagger(app)
+     ## Initialize Config
+    app.config.from_pyfile('config.py')
+    app.register_blueprint(home_api, url_prefix='/api')
+    app.register_blueprint(color_api, url_prefix='/color')
+
+    return app
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
-
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
+    from argparse import ArgumentParser
 
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    parser = ArgumentParser()
+    parser.add_argument('-p', '--port', default=5000, type=int, help='port to listen on')
+    args = parser.parse_args()
+    port = args.port
+
+    app = create_app()
+
+    app.run(host='0.0.0.0', port=port)

@@ -4,6 +4,15 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
+numpy = "*"
+scikit-learn = "*"
+opencv-python = "*"
+flask = "*"
+flasgger = "*"
+flask-marshmallow = "*"
+apispec = "*"
+python-dotenv = "*"
+marshmallow = "*"
 
 [dev-packages]
 
