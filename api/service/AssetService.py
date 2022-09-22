@@ -1,7 +1,7 @@
 import datetime
 
 import cv2
-
+import imutils
 from api.util.ColorExtractor import ColorExtractor
 from api.util.HistGenerator import HistGenerator
 
@@ -44,7 +44,7 @@ class AssetService():
                 'blue': blue_histogram,
                 'green': green_histogram
             },
-            'date': datetime.datetime.now(),
+
         }
 
         return image_data

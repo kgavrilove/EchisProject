@@ -1,3 +1,4 @@
+import datetime
 import json
 from http import HTTPStatus
 from flask import Blueprint, request
@@ -12,26 +13,57 @@ asset_service = AssetService()
 @swag_from({
     'responses': {
         HTTPStatus.OK.value: {
-            'description': 'healthcheck method ',
+            'description': 'Dominant colors method ',
         }
     }
 })
-@color_api.route('/dominant', methods=['POST'])
+@color_api.route('/dominant', methods=['POST','GET'])
 def dominant():
     if request.method == 'POST':
-        # add checking and try catch blocks
-        img = request.args.get('img')
-        k_clusters = int(request.args.get('k_clusters'))
-        if k_clusters > 1:
+
+        if not request.args.get('img') or not request.args.get('kClusters'):
+            return json.dumps({
+                'code': HTTPStatus.UNPROCESSABLE_ENTITY,
+                'message': HTTPStatus.UNPROCESSABLE_ENTITY.phrase,
+                'error': 'invalid arguments',
+                'date': datetime.datetime.now()
+            }, indent=4, default=str), HTTPStatus.UNPROCESSABLE_ENTITY
+
+        try:
+            img = request.args.get('img')  # D:\posters\1055_125.jpg
+            k_clusters = int(request.args.get('kClusters'))
+        except Exception as e:
+            return json.dumps({
+                'code': HTTPStatus.UNPROCESSABLE_ENTITY,
+                'message': HTTPStatus.UNPROCESSABLE_ENTITY.phrase,
+                'error': e,
+                'date': datetime.datetime.now()
+            }, indent=4, default=str), HTTPStatus.UNPROCESSABLE_ENTITY
+
+        try:
             path = img
             data = asset_service.generate_info(path, k_clusters)
 
             output = {
-                'status': HTTPStatus.OK,
+                'code': HTTPStatus.OK,
+                'date': datetime.datetime.now(),
                 'path_debug': path,
                 'k_clusters': k_clusters,
                 'data': data
-            }
-            return json.dumps(output, indent=4, default=str), 200
 
-    return 'img', 200
+            }
+            return json.dumps(output, indent=4, default=str), HTTPStatus.OK
+        except Exception as e:
+            return json.dumps({
+                'code': HTTPStatus.BAD_REQUEST,
+                'message': HTTPStatus.BAD_REQUEST.description,
+                'error': e,
+                'date': datetime.datetime.now(),
+            }, indent=4, default=str), 400
+
+    return json.dumps({
+        'code':HTTPStatus.BAD_REQUEST,
+        'message': HTTPStatus.BAD_REQUEST.description,
+        'date': datetime.datetime.now(),
+    }, indent=4, default=str), HTTPStatus.BAD_REQUEST
+
