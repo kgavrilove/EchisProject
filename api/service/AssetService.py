@@ -20,7 +20,7 @@ class AssetService():
         return resized
 
     def generate_info(self, img_name,k_clusters=5):
-        img = cv2.imread(img_name)
+        img=imutils.url_to_image(img_name)
 
         img = self.resize(img)
 
@@ -46,5 +46,6 @@ class AssetService():
             },
 
         }
-
+        print(rounded_centroids)
+        print(percent)
         return image_data

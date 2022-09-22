@@ -15,7 +15,6 @@ class ColorExtractor:
         s = self.kmeans.fit(img)
         labels = self.kmeans.labels_
         centroid = self.kmeans.cluster_centers_
-
         labels = list(labels)
         percent = []
         for i in range(len(centroid)):
