@@ -21,6 +21,7 @@ asset_service = AssetService()
 def dominant():
     if request.method == 'POST':
 
+        print(request.args)
         if not request.args.get('img') or not request.args.get('kClusters'):
             return json.dumps({
                 'code': HTTPStatus.UNPROCESSABLE_ENTITY,
@@ -32,6 +33,7 @@ def dominant():
         try:
             img = request.args.get('img')  # D:\posters\1055_125.jpg
             k_clusters = int(request.args.get('kClusters'))
+
         except Exception as e:
             return json.dumps({
                 'code': HTTPStatus.UNPROCESSABLE_ENTITY,

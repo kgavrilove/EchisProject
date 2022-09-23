@@ -46,6 +46,5 @@ class AssetService():
             },
 
         }
-        print(rounded_centroids)
-        print(percent)
+
         return image_data
