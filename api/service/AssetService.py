@@ -36,13 +36,13 @@ class AssetService():
             'image': img_name,
             'kMeans': {
                 'k_clusters':k_clusters,
-                'dominantColors': rounded_centroids,
+                'dominantColors': rounded_centroids.tolist(),
                 'percentage': percent,
             },
             'histogram': {
-                'red': red_histogram,
-                'blue': blue_histogram,
-                'green': green_histogram
+                'red': red_histogram.tolist(),
+                'blue': blue_histogram.tolist(),
+                'green': green_histogram.tolist()
             },
 
         }

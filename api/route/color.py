@@ -17,7 +17,7 @@ asset_service = AssetService()
         }
     }
 })
-@color_api.route('/dominant', methods=['POST','GET'])
+@color_api.route('/dominant', methods=['POST', 'GET'])
 def dominant():
     if request.method == 'POST':
 
@@ -64,8 +64,17 @@ def dominant():
             }, indent=4, default=str), 400
 
     return json.dumps({
-        'code':HTTPStatus.BAD_REQUEST,
+        'code': HTTPStatus.BAD_REQUEST,
         'message': HTTPStatus.BAD_REQUEST.description,
         'date': datetime.datetime.now(),
     }, indent=4, default=str), HTTPStatus.BAD_REQUEST
 
+
+@color_api.route('/removeBackground', methods=['POST', 'GET'])
+def remove_background():
+    output = {
+        'status': HTTPStatus.OK,
+        'method': 'removeBackground',
+        'date': datetime.datetime.now()
+    }
+    return json.dumps(output, indent=4, default=str), 200
