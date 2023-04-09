@@ -16,7 +16,8 @@ from PIL import Image
 
 class BackgroundExtractor:
     def __init__(self):
-        self.currentDir = 'C:\\Users\\Kirill\\PycharmProjects\\EchisProject'
+        #self.currentDir = 'C:\\Users\\Kirill\\PycharmProjects\\EchisProject'
+        self.currentDir = 'C:\\Users\\kgavr\\PycharmProjects\\EchisProject'
         # ------- Load Trained Model --------
         model_name = 'u2net'
         model_dir = os.path.join(self.currentDir, 'saved_models',

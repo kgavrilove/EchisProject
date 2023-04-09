@@ -162,7 +162,8 @@ def itenAnalisys():
 
         try:
             img_path = img
-            data = asset_service.iten_map(img_path, mode=mode)
+            #data = asset_service.iten_map(img_path, mode=mode)
+            data = asset_service.iten_colors(img_path)
 
             output = {
                 'code': HTTPStatus.OK,

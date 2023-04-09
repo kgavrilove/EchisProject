@@ -14,6 +14,7 @@ from skimage.color import rgb2lab
 from api.util.ColorExtractor import ColorExtractor
 from api.util.HistGenerator import HistGenerator
 from api.service.BackgroundService import BackgroundService
+from api.util.ImgToMap import ImgToMap
 from api.util.MapExtractor import MapExtractor
 from api.util.MapCounter import MapCounter
 
@@ -24,6 +25,7 @@ class AssetService():
         self.background_service = BackgroundService()
         self.mapper = MapExtractor()
         self.counter = MapCounter()
+        self.ImgToMap = ImgToMap()
 
     def resize(self, img, scale_percent=60):
         width = int(img.shape[1] * scale_percent / 100)
@@ -114,6 +116,47 @@ class AssetService():
             },
             'mode': mode,
             'map': map,
+            'iten_map': {
+                'original': original_map,
+                'background': background_map,
+                'frontground': frontground_map
+            },
+        }
+        return image_data
+
+    def get_map_from_img(self,img , alpha_channel='true'):
+        rgb = img.resize((100, 100))
+
+        if alpha_channel == 'true':
+            rgb = color.rgba2rgb(rgb)
+
+        lab = color.rgb2lab(rgb)
+        image_map = self.ImgToMap.get_map(lab)
+        return image_map
+    def iten_colors(self, img_url):
+
+        # exception
+        if img_url is None:
+            raise Exception("image url cant be empty")
+
+        splited_img = self.background_service.splitimage(img_url)
+
+        urllib.request.urlretrieve(img_url, "asset.png")
+
+        original_img = Image.open("asset.png")
+
+        background_map=self.get_map_from_img(splited_img['background'])
+        print(background_map)
+        frontground_map = self.get_map_from_img(splited_img['frontground'])
+        print(frontground_map)
+        original_map= self.get_map_from_img(original_img,alpha_channel='false')
+        image_data = {
+            'image': img_url,
+            'split': {
+                'original': original_img,
+                'background': splited_img['background'],
+                'frontground': splited_img['frontground']
+            },
             'iten_map': {
                 'original': original_map,
                 'background': background_map,
