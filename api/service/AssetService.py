@@ -146,9 +146,7 @@ class AssetService():
         original_img = Image.open("asset.png")
 
         background_map=self.get_map_from_img(splited_img['background'])
-        print(background_map)
         frontground_map = self.get_map_from_img(splited_img['frontground'])
-        print(frontground_map)
         original_map= self.get_map_from_img(original_img,alpha_channel='false')
         image_data = {
             'image': img_url,

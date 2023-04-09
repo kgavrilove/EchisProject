@@ -1,10 +1,12 @@
 from PIL import Image
 from PIL import ImageCms
 import math
+from api.util.MapGenerator import MapGenerator
 
 
 class ImgToMap:
     def __init__(self):
+        '''
         self.MAP_COLORS_LAB =  {
  'белый_1': (100, -0, 0),
             'черный_1': (0, 0, 0),
@@ -106,6 +108,11 @@ class ImgToMap:
     'красно-фиолетовый_8': (71, 38, -43),
 
         }
+        '''
+        self.MapGenerator=MapGenerator()
+        self.MAP_COLORS_LAB = self.MapGenerator.generate_color_map()
+        self.MAP_COLORS_LAB['белый_1']=(100, -0, 0)
+        self.MAP_COLORS_LAB['черный_1'] = (0, 0, 0)
         self.colors = list(self.MAP_COLORS_LAB.values())
 
     def rgb_to_lab(self, img):
